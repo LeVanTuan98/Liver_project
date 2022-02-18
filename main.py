@@ -1,3 +1,4 @@
+from traceback import print_tb
 import types
 import cv2
 import matplotlib.pyplot as plt
@@ -64,15 +65,20 @@ id_pat = 0
 id_slice = 45
 # ct_set = read_nii(f"{df_files.loc[id_pat, 'dirname']}/{df_files.loc[id_pat, 'filename']}")
 # mask_set = read_nii(f"{df_files.loc[id_pat, 'mask_dirname']}/{df_files.loc[id_pat, 'mask_filename']}")
-ct_set = read_nii("liver_tumor_segmentation/dataset/volume_pt1/volume-0.nii")
-mask_set = read_nii("liver_tumor_segmentation/segmentations/segmentation-0.nii")
+ct_set = read_nii("dataset/volume-0.nii")
+mask_set = read_nii("dataset/segmentation-0.nii")
 
 image = ct_set[..., id_slice]
 mask = mask_set[..., id_slice]
-windowed_image = windowed(image.astype(np.float32), *dicom_windows.liver)
-sample = np.zeros_like(windowed_image)
-sample[mask == 1] = windowed_image[mask == 1]
-plot_sample([image, mask])
+# windowed_image = windowed(image.astype(np.float32), *dicom_windows.liver)
+# sample = np.zeros_like(windowed_image)
+# sample[mask == 1] = windowed_image[mask == 1]
+# plot_sample([image, mask])
+
+
+print(image.dtype, image.shape)
+print(mask.dtype, mask.shape)
+
 
 # fig = plt.figure(figsize=(18, 15))
 #
@@ -87,15 +93,15 @@ plot_sample([image, mask])
 # plt.show()
 
 ########################################################################
-row_size = windowed_image.shape[0]
-col_size = windowed_image.shape[1]
-#compute average value
-mean = np.mean(windowed_image)
-#compute standard deviation
-std = np.std(windowed_image)
+# row_size = windowed_image.shape[0]
+# col_size = windowed_image.shape[1]
+# #compute average value
+# mean = np.mean(windowed_image)
+# #compute standard deviation
+# std = np.std(windowed_image)
 
-# Using Kmeans to seraprate foreground (soft tissue / bone) and background (lung/air) -> cluster=2
-kmeans = KMeans(n_clusters=2).fit()
+# # Using Kmeans to seraprate foreground (soft tissue / bone) and background (lung/air) -> cluster=2
+# kmeans = KMeans(n_clusters=2).fit()
 
 
 
